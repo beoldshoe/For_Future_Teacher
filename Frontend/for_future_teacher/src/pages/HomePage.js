@@ -50,7 +50,7 @@ const HomePage = () => {
             return;
         }
         // 로그인 로직 처리 후 성공적으로 로그인이 되었다면 MainPage로 이동
-        navigate('/MainPage'); // 여기에서 /MainPage로 이동합니다.
+        navigate('/Main'); // 여기에서 /MainPage로 이동합니다.
     };
 
     return (
