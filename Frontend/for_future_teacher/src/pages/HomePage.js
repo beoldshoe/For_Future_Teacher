@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom'; // useHistory를 import 합니다.
 
 const HomePage = () => {
-    // 상태 추가
     const [userId, setUserId] = useState('');
     const [password, setPassword] = useState('');
+    const navigate = useNavigate(); // useHistory 훅을 사용해서 history 객체를 생성합니다.
 
-    // 스타일 객체 정의
     const styles = {
         container: {
             display: 'flex',
@@ -45,13 +44,13 @@ const HomePage = () => {
         }
     };
 
-    // 로그인 버튼 클릭 이벤트 처리
     const handleLoginClick = () => {
         if (!userId || !password) {
             alert('모든 정보를 입력해주세요.');
             return;
         }
-        // 로그인 로직 처리
+        // 로그인 로직 처리 후 성공적으로 로그인이 되었다면 MainPage로 이동
+        navigate('/MainPage'); // 여기에서 /MainPage로 이동합니다.
     };
 
     return (

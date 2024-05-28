@@ -1,6 +1,7 @@
 import FindIdPwPage from './pages/FindIdPwPage';
 import HomePage from './pages/HomePage';
 import SignUpPage from './pages/SignUpPage';
+import MainPage from './pages/MainPage';
 
 const routes = [
     {
@@ -14,6 +15,10 @@ const routes = [
     {
         path : '/FindIdPw',
         component : FindIdPwPage
+    },
+    {
+        path : '/MainPage',
+        component : MainPage
     }
    
 ]
