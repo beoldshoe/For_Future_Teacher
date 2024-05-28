@@ -1,8 +1,12 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom'; 
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const FindIdPwPage = () => {
-    const navigate = useNavigate(); 
+    const navigate = useNavigate();
+    const [nameForId, setNameForId] = useState('');
+    const [phone, setPhone] = useState('');
+    const [nameForPw, setNameForPw] = useState('');
+    const [userId, setUserId] = useState('');
 
     const styles = {
         container: {
@@ -14,7 +18,7 @@ const FindIdPwPage = () => {
             padding: '20px',
         },
         section: {
-            marginTop : '20vh',
+            marginTop: '20vh',
         },
         input: {
             margin: '5px',
@@ -30,6 +34,22 @@ const FindIdPwPage = () => {
         }
     };
 
+    const handleIdCheck = () => {
+        if (!nameForId || !phone) {
+            alert('모든 정보를 입력해주세요.');
+            return;
+        }
+        // 아이디 찾기 로직 추가
+    };
+
+    const handlePwCheck = () => {
+        if (!nameForPw || !userId) {
+            alert('모든 정보를 입력해주세요.');
+            return;
+        }
+        // 비밀번호 찾기 로직 추가
+    };
+
     return (
         <div style={styles.container}>
             <button onClick={() => navigate(-1)} style={styles.goBackButton}>
@@ -37,15 +57,39 @@ const FindIdPwPage = () => {
             </button>
             <div style={styles.section}>
                 <h2>아이디 찾기</h2>
-                <input type="text" placeholder="이름" style={styles.input} />
-                <input type="text" placeholder="전화번호" style={styles.input} />
-                <button style={styles.button}>확인</button>
+                <input
+                    type="text"
+                    placeholder="이름"
+                    value={nameForId}
+                    onChange={(e) => setNameForId(e.target.value)}
+                    style={styles.input}
+                />
+                <input
+                    type="text"
+                    placeholder="전화번호"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    style={styles.input}
+                />
+                <button onClick={handleIdCheck} style={styles.button}>확인</button>
             </div>
             <div style={styles.section}>
                 <h2>비밀번호 찾기</h2>
-                <input type="text" placeholder="이름" style={styles.input} />
-                <input type="text" placeholder="아이디" style={styles.input} />
-                <button style={styles.button}>확인</button>
+                <input
+                    type="text"
+                    placeholder="이름"
+                    value={nameForPw}
+                    onChange={(e) => setNameForPw(e.target.value)}
+                    style={styles.input}
+                />
+                <input
+                    type="text"
+                    placeholder="아이디"
+                    value={userId}
+                    onChange={(e) => setUserId(e.target.value)}
+                    style={styles.input}
+                />
+                <button onClick={handlePwCheck} style={styles.button}>확인</button>
             </div>
         </div>
     );
