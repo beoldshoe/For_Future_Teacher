@@ -39,7 +39,7 @@ const MainTopNavBar = () => {
         <div style={styles.navBar}>
             <div style={styles.linkContainer}>
                 <Link to="/QnA" style={styles.link}>질의응답 게시판</Link>
-                <Link to="/PastQuestions" style={styles.link}>기출문제</Link>
+                <Link to="/PrevExam" style={styles.link}>기출문제</Link>
                 <Link to="/ShareProblems" style={styles.link}>문제 공유</Link>
             </div>
             <div style={styles.buttonContainer}>

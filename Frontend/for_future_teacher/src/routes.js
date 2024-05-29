@@ -3,6 +3,7 @@ import HomePage from './pages/HomePage';
 import SignUpPage from './pages/SignUpPage';
 import MainPage from './pages/MainPage';
 import QnAPage from './pages/QnAPage';
+import PrevExamPage from './pages/PrevExamPage';
 
 const routes = [
     {
@@ -24,6 +25,10 @@ const routes = [
     {
         path : '/QnA',
         component : QnAPage
+    },
+    {
+        path : 'PrevExam',
+        component : PrevExamPage
     }
    
 ]
