@@ -9,10 +9,10 @@ const SideBar = () => {
                     <Link to="/MyPage">내 정보 수정</Link>
                 </li>
                 <li>
-                    <Link to="/correctq">맞힌 문제</Link>
+                    <Link to="/CorrectQ">맞힌 문제</Link>
                 </li>
                 <li>
-                    <Link to="/notcorrectq">틀린 문제</Link>
+                    <Link to="/NotCorrectQ">틀린 문제</Link>
                 </li>
             </ul>
         </div>

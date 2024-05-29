@@ -6,6 +6,8 @@ import QnAPage from './pages/QnAPage';
 import PrevExamPage from './pages/PrevExamPage';
 import ShareQPage from './pages/ShareQPage';
 import MyPage from './pages/MyPage';
+import CorrectQPage from './pages/CorrectQPage';
+import NotCorrectQPage from './pages/NotCorrectQPage';
 
 const routes = [
     {
@@ -39,6 +41,14 @@ const routes = [
     {
         path : 'MyPage',
         component : MyPage
+    },
+    {
+        path : 'CorrectQ',
+        component : CorrectQPage
+    },
+    {
+        path : 'NotCorrectQ',
+        component : NotCorrectQPage
     }
    
 ]

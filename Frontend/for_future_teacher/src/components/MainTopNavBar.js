@@ -1,9 +1,9 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 const MainTopNavBar = () => {
     const navigate = useNavigate();
+    const location = useLocation(); // 현재 위치를 알아내기 위해 useLocation 훅 사용
     const styles = {
         navBar: {
             display: 'flex',
@@ -16,12 +16,18 @@ const MainTopNavBar = () => {
         },
         linkContainer: {
             display: 'flex',
-            gap: '20px',
+            gap: '40px',
         },
         link: {
             color: '#fff',
             textDecoration: 'none',
-            fontSize: '16px',
+            fontSize: '20px',
+        },
+        activeLink: {
+            color: '#fff',
+            textDecoration: 'none',
+            fontSize: '20px',
+            fontWeight: 'bold', // 굵은 글씨체로 변경
         },
         buttonContainer: {
             display: 'flex',
@@ -37,19 +43,33 @@ const MainTopNavBar = () => {
         }
     };
 
+    // 선택된 링크에 대한 스타일을 결정하는 함수
+    const getLinkStyle = (path) => {
+        return location.pathname === path ? styles.activeLink : styles.link;
+    };
+
+    const handleLogout = () => {
+        // '로그아웃 하시겠습니까?' 물음
+        const confirmLogout = window.confirm('로그아웃 하시겠습니까?');
+
+        if (confirmLogout) {
+            // '예'를 선택한 경우, 홈으로 이동
+            navigate('/');
+        }
+        // '아니오'를 선택한 경우, 아무 동작도 하지 않음
+    };
+
     return (
         <div style={styles.navBar}>
             <div style={styles.linkContainer}>
-                <Link to="/Main" style={styles.link}>홈</Link> 
-                <Link to="/QnA" style={styles.link}>질의응답 게시판</Link>
-                <Link to="/PrevExam" style={styles.link}>기출문제</Link>
-                <Link to="/ShareQ" style={styles.link}>문제 공유</Link>
+                <Link to="/Main" style={getLinkStyle('/Main')}>홈</Link> 
+                <Link to="/QnA" style={getLinkStyle('/QnA')}>질의응답 게시판</Link>
+                <Link to="/PrevExam" style={getLinkStyle('/PrevExam')}>기출문제</Link>
+                <Link to="/ShareQ" style={getLinkStyle('/ShareQ')}>문제 공유</Link>
             </div>
             <div style={styles.buttonContainer}>
-                <button 
-                    style={styles.button}
-                    onClick={() => navigate('/MyPage')}>My Page</button>
-                <button style={styles.button}>로그아웃</button>
+                <button style={styles.button} onClick={() => navigate('/MyPage')}>My Page</button>
+                <button style={styles.button} onClick={handleLogout}>로그아웃</button>
             </div>
         </div>
     );

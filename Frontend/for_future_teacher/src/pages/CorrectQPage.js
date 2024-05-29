@@ -1,20 +1,19 @@
-import React from 'react';
 import MainTopNavBar from "../components/MainTopNavBar";
-import SideBar from '../components/SideBar';
+import SideBar from "../components/SideBar";
 
-const MyPage = () => {
+const CorrectQPage = () => {
     return (
         <div style={{ display: 'flex', flexDirection: 'column' }}>
             <MainTopNavBar />
             <div style={{ display: 'flex', flex: 1 }}>
                 <SideBar />
                 <div style={{ flex: 1, marginLeft: '20px' }}>
-                    <h1>내 정보 수정</h1>
+                    <h1>내가 맞힌 문제</h1>
                     {/* 여기에 내 정보 수정 폼을 추가할 수 있습니다 */}
                 </div>
             </div>
         </div>
     );
-};
+}
 
-export default MyPage;
+export default CorrectQPage
