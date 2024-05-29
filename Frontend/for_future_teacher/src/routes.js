@@ -4,6 +4,8 @@ import SignUpPage from './pages/SignUpPage';
 import MainPage from './pages/MainPage';
 import QnAPage from './pages/QnAPage';
 import PrevExamPage from './pages/PrevExamPage';
+import ShareQPage from './pages/ShareQPage';
+import MyPage from './pages/MyPage';
 
 const routes = [
     {
@@ -29,6 +31,14 @@ const routes = [
     {
         path : 'PrevExam',
         component : PrevExamPage
+    },
+    {
+        path : 'ShareQ',
+        component : ShareQPage
+    },
+    {
+        path : 'MyPage',
+        component : MyPage
     }
    
 ]
