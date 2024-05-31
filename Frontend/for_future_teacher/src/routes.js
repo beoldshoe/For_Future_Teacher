@@ -8,6 +8,7 @@ import ShareQPage from './pages/ShareQPage';
 import MyPage from './pages/MyPage';
 import CorrectQPage from './pages/CorrectQPage';
 import NotCorrectQPage from './pages/NotCorrectQPage';
+import QnARegPage from './pages/QnARegPage';
 
 const routes = [
     {
@@ -29,6 +30,10 @@ const routes = [
     {
         path : '/QnA/:id',
         component : QnAPage
+    },
+    {
+        path : '/QnAReg/:id',
+        component : QnARegPage
     },
     {
         path : 'PrevExam/:id',
