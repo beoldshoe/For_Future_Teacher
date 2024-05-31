@@ -3,7 +3,8 @@ import { Link, useLocation } from 'react-router-dom';
 
 const SideBar = () => {
     const location = useLocation(); // 현재 위치를 알아내기 위해 useLocation 훅 사용
-
+    const userid = localStorage.getItem('userid');
+    console.log(userid);
     // 선택된 링크에 대한 스타일을 결정하는 함수
     const getLinkStyle = (path) => ({
         textDecoration: 'none',
@@ -26,13 +27,13 @@ const SideBar = () => {
         }}>
             <ul style={{ listStyleType: 'none', padding: 0 }}>
                 <li style={{ margin: '20px 0' }}> {/* 여기에 margin 추가 */}
-                    <Link to="/MyPage" style={getLinkStyle('/MyPage')}>내 정보 수정</Link>
+                    <Link to={`/MyPage/${userid}`} style={getLinkStyle(`/MyPage/${userid}`)}>내 정보 수정</Link>
                 </li>
                 <li style={{ margin: '20px 0' }}> {/* 여기에 margin 추가 */}
-                    <Link to="/CorrectQ" style={getLinkStyle('/CorrectQ')}>맞힌 문제</Link>
+                    <Link to={`/CorrectQ/${userid}`} style={getLinkStyle(`/CorrectQ/${userid}`)}>맞힌 문제</Link>
                 </li>
                 <li style={{ margin: '20px 0' }}> {/* 여기에 margin 추가 */}
-                    <Link to="/NotCorrectQ" style={getLinkStyle('/NotCorrectQ')}>틀린 문제</Link>
+                    <Link to={`/NotCorrectQ/${userid}`} style={getLinkStyle(`/NotCorrectQ/${userid}`)}>틀린 문제</Link>
                 </li>
             </ul>
         </div>

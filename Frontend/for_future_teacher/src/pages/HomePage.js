@@ -83,8 +83,9 @@ const HomePage = () => {
             if (response.ok) {
                 return response.text().then(data => {
                     console.log('Success:', data);
+                    localStorage.setItem('userid', data);
                     alert('로그인에 성공하였습니다.');
-                    navigate('/Main')
+                    navigate(`/Main/${data}`)
                 });
             } else {
             throw new Error('로그인 실패하였습니다.');

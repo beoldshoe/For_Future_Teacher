@@ -2,6 +2,8 @@ import React from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 const MainTopNavBar = () => {
+    const userid = localStorage.getItem('userid');
+    console.log(userid);
     const navigate = useNavigate();
     const location = useLocation(); // 현재 위치를 알아내기 위해 useLocation 훅 사용
     const styles = {
@@ -62,13 +64,13 @@ const MainTopNavBar = () => {
     return (
         <div style={styles.navBar}>
             <div style={styles.linkContainer}>
-                <Link to="/Main" style={getLinkStyle('/Main')}>홈</Link> 
-                <Link to="/QnA" style={getLinkStyle('/QnA')}>질의응답 게시판</Link>
-                <Link to="/PrevExam" style={getLinkStyle('/PrevExam')}>기출문제</Link>
-                <Link to="/ShareQ" style={getLinkStyle('/ShareQ')}>문제 공유</Link>
+                <Link to={`/Main/${userid}`} style={getLinkStyle(`/Main/${userid}`)}>홈</Link> 
+                <Link to={`/QnA/${userid}`} style={getLinkStyle(`/QnA/${userid}`)}>질의응답 게시판</Link>
+                <Link to={`/PrevExam/${userid}`} style={getLinkStyle(`/PrevExam/${userid}`)}>기출문제</Link>
+                <Link to={`/ShareQ/${userid}`} style={getLinkStyle(`/ShareQ/${userid}`)}>문제 공유</Link>
             </div>
             <div style={styles.buttonContainer}>
-                <button style={styles.button} onClick={() => navigate('/MyPage')}>My Page</button>
+                <button style={styles.button} onClick={() => navigate(`/MyPage/${userid}`)}>My Page</button>
                 <button style={styles.button} onClick={handleLogout}>로그아웃</button>
             </div>
         </div>

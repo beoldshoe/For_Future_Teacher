@@ -75,7 +75,33 @@ const FindIdPwPage = () => {
             alert('모든 정보를 입력해주세요.');
             return;
         }
-        // 비밀번호 찾기 로직 추가
+        
+        const data = {
+            name : nameForPw,
+            email : userId
+        }
+
+        fetch(`${ApiAddress}/auth/resetPassword`, {
+            method : 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+        .then(response =>{
+            if (response.ok){
+                return response.text().then(data=>{
+                    console.log(data)
+                    alert(`비밀번호가 ${data}로 초기화되었습니다.`)
+                })
+            }else{
+                throw new Error ('찾으시는 정보의 비밀번호가 없습니다.')
+            }
+        })
+        .catch((error)=>{
+            console.log('Error', error);
+            alert('비밀번호 찾기에 실패했습니다.')
+        })
     };
 
     return (

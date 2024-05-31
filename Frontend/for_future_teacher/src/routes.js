@@ -23,31 +23,31 @@ const routes = [
         component : FindIdPwPage
     },
     {
-        path : '/Main',
+        path : '/Main/:id',
         component : MainPage
     },
     {
-        path : '/QnA',
+        path : '/QnA/:id',
         component : QnAPage
     },
     {
-        path : 'PrevExam',
+        path : 'PrevExam/:id',
         component : PrevExamPage
     },
     {
-        path : 'ShareQ',
+        path : 'ShareQ/:id',
         component : ShareQPage
     },
     {
-        path : 'MyPage',
+        path : 'MyPage/:id',
         component : MyPage
     },
     {
-        path : 'CorrectQ',
+        path : 'CorrectQ/:id',
         component : CorrectQPage
     },
     {
-        path : 'NotCorrectQ',
+        path : 'NotCorrectQ/:id',
         component : NotCorrectQPage
     }
    
