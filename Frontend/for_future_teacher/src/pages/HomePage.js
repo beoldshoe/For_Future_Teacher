@@ -30,6 +30,11 @@ const HomePage = () => {
             marginTop: '10px',
             padding: '10px',
             width: '220px',
+            backgroundColor: 'blue', // 버튼 배경색 추가
+            color: 'white', // 버튼 텍스트 색상 변경
+            border: 'none', // 테두리 제거
+            borderRadius: '5px', // 버튼 모서리 둥글게
+            cursor: 'pointer', // 마우스 오버시 커서 변경
         },
         linkContainer: {
             display: 'flex',
@@ -41,8 +46,12 @@ const HomePage = () => {
             textDecoration: 'none',
             color: 'blue',
             cursor: 'pointer',
+            fontWeight: 'bold', // 글꼴 굵기 변경
+            fontSize: '16px', // 글꼴 크기 변경
         }
     };
+    
+    
 
     const handleLoginClick = () => {
         if (!userId || !password) {

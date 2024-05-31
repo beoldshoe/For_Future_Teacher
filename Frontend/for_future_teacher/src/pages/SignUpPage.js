@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { ApiAddress } from '../constants';
 
 const SignUpPage = () => {
     const navigate = useNavigate();
+    const [nickname, setNickName] = useState('');
     const [name, setName] = useState('');
+    const [phonenumber, setPhoneNumber] = useState('');
     const [userId, setUserId] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -66,18 +69,49 @@ const SignUpPage = () => {
     }, [password, confirmPassword]);
 
     const handleSignUp = () => {
-        if (!name || !userId || !password || !confirmPassword) {
+        if (!name || !nickname || !phonenumber || !userId || !password || !confirmPassword) {
             alert('모든 정보를 입력해주세요');
             return;
         }
-
+    
         if (password !== confirmPassword) {
             alert('비밀번호가 일치하지 않습니다.');
             return;
         }
-
-        // 회원가입 로직 추가
+    
+        const data = {
+            nickname: nickname,
+            password: password,
+            phoneNumber: phonenumber,
+            email: userId,
+            name: name
+        };
+        console.log(data)
+        fetch(`${ApiAddress}/auth/join`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.json().then(data => {
+                    console.log('Success:', data);
+                    alert('회원가입에 성공하였습니다.');
+                    navigate('/')
+                });
+            } else {
+            throw new Error('회원가입에 실패하였습니다. (사유 : 중복된 아이디)');
+            }
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+            alert('회원가입에 실패하였습니다. (사유 : 중복된 아이디)'); 
+        });
     };
+    
+    
 
     return (
         <div style={styles.container}>
@@ -85,6 +119,8 @@ const SignUpPage = () => {
             <h1>회원가입</h1>
             <div style={styles.inputContainer}>
                 <input type="text" placeholder="이름" value={name} onChange={(e) => setName(e.target.value)} style={styles.input} />
+                <input type="text" placeholder="닉네임" value={nickname} onChange={(e) => setNickName(e.target.value)} style={styles.input} />
+                <input type="text" placeholder="전화번호" value={phonenumber} onChange={(e) => setPhoneNumber(e.target.value)} style={styles.input} />
                 <input type="text" placeholder="아이디" value={userId} onChange={(e) => setUserId(e.target.value)} style={styles.input} />
                 <input type="password" placeholder="비밀번호" value={password} onChange={(e) => setPassword(e.target.value)} style={styles.input} />
                 <input type="password" placeholder="비밀번호 확인" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} style={styles.input} />
