@@ -1,14 +1,9 @@
 package com.teacher.workbook.domain.user;
 
-import com.teacher.workbook.dto.user.SignupRequestDto;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import java.sql.ConnectionBuilder;
-
+@Setter
 @Getter
 @Entity
 @Builder

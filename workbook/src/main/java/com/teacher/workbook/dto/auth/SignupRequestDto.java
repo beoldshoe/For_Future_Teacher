@@ -1,4 +1,4 @@
-package com.teacher.workbook.dto.user;
+package com.teacher.workbook.dto.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
