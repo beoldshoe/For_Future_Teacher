@@ -1,6 +1,6 @@
 package com.teacher.workbook.repository.question;
 
-import org.mockito.stubbing.Answer;
+import com.teacher.workbook.domain.question.Answer;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface AnswerRepository extends JpaRepository<Answer, Long> {

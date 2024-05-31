@@ -1,6 +1,6 @@
 package com.teacher.workbook.domain.user;
 
-import com.server.future_teacher.domain.question.Question;
+import com.teacher.workbook.domain.question.Question;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
