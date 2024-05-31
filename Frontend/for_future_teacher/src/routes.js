@@ -9,6 +9,7 @@ import MyPage from './pages/MyPage';
 import CorrectQPage from './pages/CorrectQPage';
 import NotCorrectQPage from './pages/NotCorrectQPage';
 import QnARegPage from './pages/QnARegPage';
+import QnADetailPage from './pages/QnADetailPage';
 
 const routes = [
     {
@@ -34,6 +35,10 @@ const routes = [
     {
         path : '/QnAReg/:id',
         component : QnARegPage
+    },
+    {
+        path : 'QnADetail/:id/:postId',
+        component : QnADetailPage
     },
     {
         path : 'PrevExam/:id',

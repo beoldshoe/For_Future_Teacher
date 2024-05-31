@@ -61,9 +61,9 @@ const QnAPage = () => {
             <tbody>
                 {posts.map(post => (
                     <tr key={post.postId} style={{ cursor: 'pointer' }} onClick={() => navigate(`/QnADetail/${userid}/${post.postId}`)}>
-                        <td>{post.title}</td>
-                        <td>{post.nickname}</td>
-                        <td>{new Date(post.updatedAt).toLocaleString()}</td>
+                        <td style={{ textAlign: 'center' }}>{post.title}</td>
+                        <td style={{ textAlign: 'center' }}>{post.nickname}</td>
+                        <td style={{ textAlign: 'center' }}>{new Date(post.updatedAt).toLocaleString()}</td>
                     </tr>
                 ))}
             </tbody>
