@@ -6,6 +6,7 @@ import com.teacher.workbook.service.user.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,4 +38,19 @@ public class UserController {
         User updatedUser = userService.updateUser(id, userUpdateDto);
         return ResponseEntity.ok(updatedUser);
     }
+
+    @DeleteMapping("/{id}")
+    @Operation(summary = "사용자 삭제")
+    public ResponseEntity<?> deleteUserById(@PathVariable("id") Long id) {
+        boolean isDeleted = userService.deleteUserById(id);
+        if (isDeleted) {
+            // 삭제 성공: HTTP 상태 코드 200(OK) 반환
+            return ResponseEntity.ok().body("사용자가 성공적으로 삭제되었습니다.");
+        } else {
+            // 삭제 실패 (예: 사용자를 찾을 수 없음): HTTP 상태 코드 404(NOT FOUND) 반환
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당 ID의 사용자를 찾을 수 없습니다.");
+        }
+    }
+
+
 }
