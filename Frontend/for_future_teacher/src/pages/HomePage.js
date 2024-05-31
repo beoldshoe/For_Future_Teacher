@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom'; // useHistory를 import 합니다.
+import { Link, useNavigate } from 'react-router-dom'; 
+import { ApiAddress } from '../constants';
 
 const HomePage = () => {
     const [userId, setUserId] = useState('');
@@ -58,9 +59,45 @@ const HomePage = () => {
             alert('모든 정보를 입력해주세요.');
             return;
         }
-        // 로그인 로직 처리 후 성공적으로 로그인이 되었다면 MainPage로 이동
-        navigate('/Main'); // 여기에서 /MainPage로 이동합니다.
+    
+        // 로그인 요청을 보내는 주소
+        const loginUrl = `${ApiAddress}/auth/login`;
+    
+        // 요청에 포함될 데이터
+        const loginData = {
+            email: userId,
+            password: password,
+        };
+        console.log(loginData)
+        // Fetch API를 사용하여 로그인 요청을 보냅니다.
+        fetch(loginUrl, {
+            method: 'POST', // HTTP 메소드
+            headers: {
+                'Content-Type': 'application/json', // 컨텐츠 타입
+            },
+            body: JSON.stringify(loginData), // JSON 문자열로 변환
+        })
+        
+        .then(response => {
+            console.log(response)
+            if (response.ok) {
+                return response.text().then(data => {
+                    console.log('Success:', data);
+                    alert('로그인에 성공하였습니다.');
+                    navigate('/Main')
+                });
+            } else {
+            throw new Error('로그인 실패하였습니다.');
+            }
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+            alert('로그인 실패하였습니다.');
+        });
     };
+
+
+    
 
     return (
         <div style={styles.container}>
