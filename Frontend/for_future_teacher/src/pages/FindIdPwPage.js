@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { ApiAddress } from '../constants';
 
 const FindIdPwPage = () => {
     const navigate = useNavigate();
@@ -39,8 +40,35 @@ const FindIdPwPage = () => {
             alert('모든 정보를 입력해주세요.');
             return;
         }
-        // 아이디 찾기 로직 추가
-    };
+    
+        const data = {
+            name: nameForId,
+            phoneNumber: phone
+        };
+    
+        fetch(`${ApiAddress}/auth/findEmail`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+        .then(response => {
+            if (response.ok){
+                return response.text().then(data =>{
+                    console.log(data)
+                    alert(`아이디는 ${data} 입니다.`);
+                })
+        }else {
+            throw new Error('찾으시는 정보의 아이디가 없습니다.');
+        }
+    })
+        .catch((error) => {
+            console.error('Error:', error);
+            alert('아이디 찾기에 실패하였습니다.');
+        });
+    }
+    
 
     const handlePwCheck = () => {
         if (!nameForPw || !userId) {
