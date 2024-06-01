@@ -35,6 +35,32 @@ const QnADetailPage = () => {
         navigate(`/QnADetailUpdate/${userid}/${postId}`)
     }
 
+    const handleDelete = async () => {
+        // confirm 대화 상자를 사용하여 사용자의 선택을 받습니다.
+        const isConfirmed = window.confirm('게시물을 삭제하시겠습니까?');
+        
+        // 사용자가 '예'를 선택한 경우에만 삭제 로직을 실행합니다.
+        if (isConfirmed) {
+            try {
+                const response = await fetch(`${ApiAddress}/posts/${postId}`, {
+                    method: 'DELETE', // DELETE 요청
+                });
+    
+                if (response.ok) {
+                    alert('게시물이 삭제되었습니다.'); // 성공 알림
+                    navigate(-1); // 이전 페이지로 돌아가기
+                } else {
+                    // 에러 처리
+                    alert('게시물 삭제에 실패했습니다.');
+                }
+            } catch (error) {
+                console.error('게시물 삭제 요청 중 에러 발생:', error);
+                alert('게시물 삭제 요청 중 문제가 발생했습니다.');
+            }
+        }
+    };
+    
+
     return(
         <div>
             <MainTopNavBar />
@@ -85,6 +111,7 @@ const QnADetailPage = () => {
                     </button>
                     <button
                         style={{ width: '100px', height: '40px' }}
+                        onClick={handleDelete}
                     >
                         삭제하기
                     </button>
