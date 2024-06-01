@@ -3,7 +3,7 @@ import MainTopNavBar from "../components/MainTopNavBar";
 import { useNavigate, useParams } from 'react-router-dom'; // useParams를 import 합니다.
 import { ApiAddress } from '../constants';
 
-const QnADetailPage = () => {
+const QnADetailUpdatePage = () => {
     const userid = localStorage.getItem('userid');
     const navigate = useNavigate();
     const { postId } = useParams(); 
@@ -31,9 +31,31 @@ const QnADetailPage = () => {
         fetchPostDetails();
     }, [postId]); 
 
-    const goToUpdatePage = () => {
-        navigate(`/QnADetailUpdate/${userid}/${postId}`)
-    }
+    const handleUpdate = async () => {
+        try {
+            const response = await fetch(`${ApiAddress}/posts/${postId}/${userid}`, {
+                method: 'PUT', // PUT 요청
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    title : title, // 수정할 제목
+                    content: content// 수정할 내용
+                })
+            });
+
+            if (response.ok) {
+                alert('수정되었습니다'); // 성공 알림
+                navigate(-1); // 이전 페이지로 돌아가기
+            } else {
+                // 에러 처리
+                alert('수정에 실패했습니다');
+            }
+        } catch (error) {
+            console.error('수정 요청 중 에러 발생:', error);
+            alert('수정 요청 중 문제가 발생했습니다');
+        }
+    };
 
     return(
         <div>
@@ -44,7 +66,7 @@ const QnADetailPage = () => {
                     flexDirection: 'row',
                     alignItems: 'center'
                 }}>
-                <h1 style={{ marginLeft: '20px' }}>질의응답 게시판</h1>
+                <h1 style={{ marginLeft: '20px' }}>질의응답 게시물 수정하기</h1>
                 <button
                     style={{
                         marginLeft: '30px',
@@ -64,7 +86,6 @@ const QnADetailPage = () => {
                         placeholder="제목을 입력하세요"
                         value={title}
                         onChange={e => setTitle(e.target.value)}
-                        readOnly
                     />
                 </div>
                 <div>
@@ -73,20 +94,14 @@ const QnADetailPage = () => {
                         placeholder="내용을 입력하세요"
                         value={content}
                         onChange={e => setContent(e.target.value)}
-                        readOnly
                     />
                 </div>
                 <div style={{ display: 'flex', width : '80%', marginTop: '20px' }}>
                     <button
                         style={{ marginRight: '10px', width: '100px', height: '40px' }}
-                        onClick={goToUpdatePage}
+                        onClick={handleUpdate}
                     >
                         수정하기
-                    </button>
-                    <button
-                        style={{ width: '100px', height: '40px' }}
-                    >
-                        삭제하기
                     </button>
                 </div>
             </div>
@@ -94,4 +109,4 @@ const QnADetailPage = () => {
     );
 }
 
-export default QnADetailPage
+export default QnADetailUpdatePage

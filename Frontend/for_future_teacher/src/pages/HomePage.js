@@ -103,6 +103,7 @@ const HomePage = () => {
     return (
         <div style={styles.container}>
             <h1>For Future Teacher</h1>
+            <h3>임용고시생들을 위한 문제 은행 사이트</h3>
             <div style={styles.inputContainer}>
                 <input
                     type="text"

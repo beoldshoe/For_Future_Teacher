@@ -10,6 +10,7 @@ import CorrectQPage from './pages/CorrectQPage';
 import NotCorrectQPage from './pages/NotCorrectQPage';
 import QnARegPage from './pages/QnARegPage';
 import QnADetailPage from './pages/QnADetailPage';
+import QnADetailUpdatePage from './pages/QnADetailUpdatePage';
 
 const routes = [
     {
@@ -39,6 +40,10 @@ const routes = [
     {
         path : 'QnADetail/:id/:postId',
         component : QnADetailPage
+    },
+    {
+        path : 'QnADetailUpdate/:id/:postId',
+        component : QnADetailUpdatePage
     },
     {
         path : 'PrevExam/:id',
