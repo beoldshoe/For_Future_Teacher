@@ -2,9 +2,14 @@ package com.teacher.workbook.domain.user;
 
 import com.teacher.workbook.domain.question.Question;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
+@Getter
+@Setter
 @Entity
 public class AnswerHistory {
     @Id
@@ -17,8 +22,15 @@ public class AnswerHistory {
     @ManyToOne
     @JoinColumn(name = "question_id")
     private Question question;
-    private Long optionId; // 선택한 답의 ID
-    private String answer; // 주관식 답변
+    @ElementCollection
+    private Set<Integer> answers; // 선택한 Answer의 number들이 저장될거야
+    private String subjectiveAnswer;  // 주관식 답변
     private boolean isCorrect;
     private LocalDateTime answeredAt;
+
+    @PrePersist
+    protected void onPrePersist() {
+        answeredAt = LocalDateTime.now();
+    }
+
 }

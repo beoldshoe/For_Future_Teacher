@@ -33,6 +33,9 @@ public class Question {
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
     private List<Answer> answers;
 
+    private Integer totalPeopleNum; // 사용자들이 문제를 시도한 수
+    private Integer totalCorrectPeopleNum ; // 사용자들이 문제를 맞춘 수
+
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
@@ -41,6 +44,8 @@ public class Question {
         LocalDateTime now = LocalDateTime.now();
         createdAt = now;
         updatedAt = now;
+        totalPeopleNum = 0; // 문제를 시도한 사용자 수 초기화
+        totalCorrectPeopleNum = 0; // 문제를 맞춘 사용자 수 초기화
     }
 
     @PreUpdate
