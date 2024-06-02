@@ -11,6 +11,7 @@ import NotCorrectQPage from './pages/NotCorrectQPage';
 import QnARegPage from './pages/QnARegPage';
 import QnADetailPage from './pages/QnADetailPage';
 import QnADetailUpdatePage from './pages/QnADetailUpdatePage';
+import ShareQRegPage from './pages/ShareQRegPage';
 
 const routes = [
     {
@@ -52,6 +53,10 @@ const routes = [
     {
         path : 'ShareQ/:id',
         component : ShareQPage
+    },
+    {
+        path : 'ShareQReg/:id',
+        component : ShareQRegPage
     },
     {
         path : 'MyPage/:id',
