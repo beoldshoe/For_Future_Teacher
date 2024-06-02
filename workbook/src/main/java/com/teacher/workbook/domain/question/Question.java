@@ -25,13 +25,13 @@ public class Question {
     private String questionTitle; // 문제 제목
     private String content; // 문제 내용
     private QuestionType questionType; // 4 또는 5
-    private String image; // 이미지 경로 저장
+    private String image; // 해설 이미지 경로 저장
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
-    private List<Option> options;
+    private List<Option> options; // 선택지들
 
-    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
-    private List<Answer> answers;
+    @OneToOne(mappedBy = "question", cascade = CascadeType.ALL)
+    private Answer answer; // 답 저장
 
     private Integer totalPeopleNum; // 사용자들이 문제를 시도한 수
     private Integer totalCorrectPeopleNum ; // 사용자들이 문제를 맞춘 수
@@ -53,6 +53,3 @@ public class Question {
         updatedAt = LocalDateTime.now();
     }
 }
-
-
-
