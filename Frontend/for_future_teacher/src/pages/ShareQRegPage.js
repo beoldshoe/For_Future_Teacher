@@ -10,9 +10,9 @@ const ShareQRegPage = () => {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [imagePreviewUrl, setImagePreviewUrl] = useState('');
-    const [choiceCount, setChoiceCount] = useState('4');
+    const [choiceCount, setChoiceCount] = useState('Choices4');
     const [choices, setChoices] = useState(['', '', '', '']);
-    const [isPreviousQuestion, setIsPreviousQuestion] = useState('no');
+    const [isPreviousQuestion, setIsPreviousQuestion] = useState(false);
     const [answer, setAnswer] = useState('');
     const [explanation, setExplanation] = useState('');
 
@@ -24,9 +24,9 @@ const ShareQRegPage = () => {
     const handleChoiceCountChange = (event) => {
         const count = event.target.value;
         setChoiceCount(count);
-        if (count === '4') {
+        if (count === 'Choices4') {
           setChoices(choices.slice(0, 4));
-        } else if (count === '5' && choices.length === 4) {
+        } else if (count === 'Choices5' && choices.length === 4) {
           setChoices([...choices, '']);
         }
       };
@@ -62,16 +62,32 @@ const ShareQRegPage = () => {
             return; // 사용자가 취소를 누른 경우
         }
     
+        const optionDtos = choices.map((choice, index) => ({
+            number: index + 1,
+            content: choice
+        }));
+    
         // 게시물 데이터
         const postData = {
-            userId: userid, 
-            title: title,
-            content: content,
+            questionDto: {
+                title: title,
+                content: content,
+                questionType: choiceCount,
+                image: imagePreviewUrl, // 이미지 URL이 빈 문자열이면 ''를 사용
+                pastExam : isPreviousQuestion
+            },
+            optionDtos: optionDtos,
+            answerDto: {
+                answers: answer,
+                subjectiveAnswer: "",
+                image: "",
+                commentary: explanation
+            }
         };
-    
+        console.log(postData)
         try {
             // API 요청
-            const response = await fetch(`${ApiAddress}/posts`, {
+            const response = await fetch(`${ApiAddress}/questions/${userid}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -82,7 +98,7 @@ const ShareQRegPage = () => {
             // 응답 확인
             if (response.ok) {
                 alert('게시물이 등록되었습니다.');
-                navigate(`/QnA/${userid}`)
+                navigate(`/ShareQ/${userid}`)
             } else {
                 // 서버 에러 처리
                 alert('게시물 등록에 실패했습니다.');
@@ -186,16 +202,16 @@ const ShareQRegPage = () => {
                     <input
                     type="radio"
                     name="choiceCount"
-                    value="4"
-                    checked={choiceCount === '4'}
+                    value="Choices4"
+                    checked={choiceCount === 'Choices4'}
                     onChange={handleChoiceCountChange}
                     />
                     <span>5지 선다</span>
                     <input
                     type="radio"
                     name="choiceCount"
-                    value="5"
-                    checked={choiceCount === '5'}
+                    value="Choices5"
+                    checked={choiceCount === 'Choices5'}
                     onChange={handleChoiceCountChange}
                     />
                 </div>
@@ -222,7 +238,7 @@ const ShareQRegPage = () => {
                         type="radio"
                         name="isPreviousQuestion"
                         value="yes"
-                        checked={isPreviousQuestion === 'yes'}
+                        checked={isPreviousQuestion === true}
                         onChange={(e) => setIsPreviousQuestion(e.target.value)}
                         />
                     <span>사설</span>
@@ -230,7 +246,7 @@ const ShareQRegPage = () => {
                         type="radio"
                         name="isPreviousQuestion"
                         value="no"
-                        checked={isPreviousQuestion === 'no'}
+                        checked={isPreviousQuestion === false}
                         onChange={(e) => setIsPreviousQuestion(e.target.value)}
                         />
                 </div>
@@ -251,6 +267,7 @@ const ShareQRegPage = () => {
                     >
                         초기화
                     </button>
+                    
                     <button
                         style={{ width: '100px', height: '40px' }}
                         onClick={handleSubmit}

@@ -6,9 +6,11 @@ import { ApiAddress } from '../constants';
 const QnAPage = () => {
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [postsPerPage] = useState(10);
+    
     const navigate = useNavigate();
     const userid = localStorage.getItem('userid');
-    console.log(userid);
 
     useEffect(() => {
         fetchPosts();
@@ -18,7 +20,7 @@ const QnAPage = () => {
         try {
             const response = await fetch(`${ApiAddress}/posts`); 
             const data = await response.json();
-            setPosts(data.slice(0, 10));
+            setPosts(data);
             setLoading(false);
         } catch (error) {
             console.error("게시물을 불러오는데 실패했습니다.", error);
@@ -26,22 +28,21 @@ const QnAPage = () => {
         }
     };
 
+    // 현재 페이지의 게시물 가져오기
+    const indexOfLastPost = currentPage * postsPerPage;
+    const indexOfFirstPost = indexOfLastPost - postsPerPage;
+    const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
+
+    // 페이지 번호를 클릭했을 때 실행될 함수
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
     return (
         <div>
             <MainTopNavBar />
-            <div
-                style={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    alignItems: 'center'
-                }}>
+            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                 <h1 style={{ marginLeft: '20px' }}>질의응답 게시판</h1>
                 <button
-                    style={{
-                        marginLeft: '30px',
-                        width: '80px',
-                        height: '30px'
-                    }}
+                    style={{ marginLeft: '30px', width: '80px', height: '30px' }}
                     onClick={() => navigate(`/QnAReg/${userid}`)}
                 >
                     게시물 등록
@@ -50,32 +51,43 @@ const QnAPage = () => {
             {loading ? (
                 <div style={{ marginLeft: '20px' }}>게시물을 불러오는 중...</div>
             ) : (
-                <table style={tableStyle}>
-                    <thead>
-                        <tr>
-                            <th style={thStyle}>제목</th>
-                            <th style={thStyle}>작성자</th>
-                            <th style={thStyle}>작성 시간</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {posts.map((post, index) => (
-                            <tr
-                                key={post.postId}
-                                style={{ ...trStyle, backgroundColor: index % 2 === 0 ? '#f9f9f9' : '#ffffff' }}
-                                onClick={() => navigate(`/QnADetail/${userid}/${post.postId}`)}
-                            >
-                                <td style={tdStyle}>{post.title}</td>
-                                <td style={tdStyle}>{post.nickname}</td>
-                                <td style={tdStyle}>{new Date(post.updatedAt).toLocaleString()}</td>
+                <div>
+                    <table style={tableStyle}>
+                        <thead>
+                            <tr>
+                                <th style={thStyle}>제목</th>
+                                <th style={thStyle}>작성자</th>
+                                <th style={thStyle}>작성 시간</th>
                             </tr>
+                        </thead>
+                        <tbody>
+                            {currentPosts.map((post, index) => (
+                                <tr
+                                    key={post.postId}
+                                    style={{ ...trStyle, backgroundColor: index % 2 === 0 ? '#f9f9f9' : '#ffffff' }}
+                                    onClick={() => navigate(`/QnADetail/${userid}/${post.postId}`)}
+                                >
+                                    <td style={tdStyle}>{post.title}</td>
+                                    <td style={tdStyle}>{post.nickname}</td>
+                                    <td style={tdStyle}>{new Date(post.updatedAt).toLocaleString()}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                    {/* 페이지네이션 버튼 */}
+                    <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+                        {Array.from({ length: Math.ceil(posts.length / postsPerPage) }, (_, i) => (
+                            <button key={i} onClick={() => paginate(i + 1)} style={{ margin: '0 5px' }}>
+                                {i + 1}
+                            </button>
                         ))}
-                    </tbody>
-                </table>
+                    </div>
+                </div>
             )}
         </div>
     );
 };
+
 
 const tableStyle = {
     marginLeft: '20px',

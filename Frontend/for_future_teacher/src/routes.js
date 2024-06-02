@@ -12,6 +12,7 @@ import QnARegPage from './pages/QnARegPage';
 import QnADetailPage from './pages/QnADetailPage';
 import QnADetailUpdatePage from './pages/QnADetailUpdatePage';
 import ShareQRegPage from './pages/ShareQRegPage';
+import PrevExamDetailPage from './pages/PrevExamDetailPage';
 
 const routes = [
     {
@@ -49,6 +50,10 @@ const routes = [
     {
         path : 'PrevExam/:id',
         component : PrevExamPage
+    },
+    {
+        path : 'PrevExamDetail/:id/:postId',
+        component : PrevExamDetailPage
     },
     {
         path : 'ShareQ/:id',

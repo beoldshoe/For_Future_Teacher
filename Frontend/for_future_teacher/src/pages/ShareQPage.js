@@ -17,8 +17,9 @@ const ShareQPage = () => {
 
     const fetchPosts = async () => {
         try {
-            const response = await fetch(`${ApiAddress}/posts`); 
+            const response = await fetch(`${ApiAddress}/questions`); 
             const data = await response.json();
+            console.log(data)
             setPosts(data.slice(0, 10));
             setLoading(false);
         } catch (error) {
@@ -54,9 +55,10 @@ const ShareQPage = () => {
                 <table style={tableStyle}>
                     <thead>
                         <tr>
-                            <th style={thStyle}>제목</th>
+                            <th style={thStyle}>문제 제목</th>
                             <th style={thStyle}>작성자</th>
                             <th style={thStyle}>작성 시간</th>
+                            <th style={thStyle}>문제 난이도</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -66,9 +68,16 @@ const ShareQPage = () => {
                                 style={{ ...trStyle, backgroundColor: index % 2 === 0 ? '#f9f9f9' : '#ffffff' }}
                                 onClick={() => navigate(`/ShareQDetail/${userid}/${post.postId}`)}
                             >
-                                <td style={tdStyle}>{post.title}</td>
+                                <td style={tdStyle}>{post.question_id} - {post.title}</td>
                                 <td style={tdStyle}>{post.nickname}</td>
                                 <td style={tdStyle}>{new Date(post.updatedAt).toLocaleString()}</td>
+                                <td style={tdStyle}>
+                                    {post.totalPeopleNum === 0 ? '신규' :
+                                        post.totalCorrectPeopleNum / post.totalPeopleNum > 0.7 ? '하' :
+                                        0.7 >= post.totalCorrectPeopleNum / post.totalPeopleNum && post.totalCorrectPeopleNum / post.totalPeopleNum > 0.3 ? '중' :
+                                        '상'
+                                    }
+                                </td>
                             </tr>
                         ))}
                     </tbody>
