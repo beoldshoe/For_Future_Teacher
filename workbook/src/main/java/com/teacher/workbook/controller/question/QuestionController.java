@@ -1,17 +1,19 @@
 package com.teacher.workbook.controller.question;
 
+import com.teacher.workbook.domain.question.Question;
+import com.teacher.workbook.dto.question.QuestionCreateRequest;
 import com.teacher.workbook.dto.question.QuestionListDto;
-import com.teacher.workbook.service.QuestionService;
+import com.teacher.workbook.service.question.QuestionService;
 import io.swagger.v3.oas.annotations.Operation;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/questions")
 public class QuestionController {
@@ -21,8 +23,9 @@ public class QuestionController {
     public QuestionController(QuestionService questionService) {
         this.questionService = questionService;
     }
-    @Operation(summary = "문제 게시글 다 가져오기")
+
     @GetMapping
+    @Operation(summary = "문제 게시글 다 가져오기")
     public ResponseEntity<?> getAllQuestions() {
         List<QuestionListDto> questions = questionService.getAllQuestionsList();
 
@@ -36,7 +39,22 @@ public class QuestionController {
         return ResponseEntity.ok(questions);
     }
 
-
+    @PostMapping("/{userId}")
+    @Operation(summary = "문제 게시글 작성")
+    public ResponseEntity<Question> createQuestion(@PathVariable Long userId,
+                                                   @RequestBody QuestionCreateRequest request) {
+        try {
+            Question question = questionService.createQuestion(userId,
+                    request.getQuestionDto(),
+                    request.getOptionDtos(),
+                    request.getAnswerDto());
+            return new ResponseEntity<>(question, HttpStatus.CREATED);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
 
 }

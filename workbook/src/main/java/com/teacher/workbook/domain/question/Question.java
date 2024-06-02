@@ -22,13 +22,13 @@ public class Question {
     private User user;
 
     private String title; // 문제 게시글 제목
-    private String questionTitle; // 문제 제목
     private String content; // 문제 내용
     private QuestionType questionType; // 4 또는 5
     private String image; // 해설 이미지 경로 저장
+    private Boolean isPastExam;
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
-    private List<Option> options; // 선택지들
+    private List<Choice> choices; // 선택지들
 
     @OneToOne(mappedBy = "question", cascade = CascadeType.ALL)
     private Answer answer; // 답 저장
