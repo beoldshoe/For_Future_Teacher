@@ -1,11 +1,14 @@
 package com.teacher.workbook.domain.post;
 
+import com.teacher.workbook.domain.comment.Comment;
 import com.teacher.workbook.domain.user.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 // 질의 응답 게시판을 위한 entity
 @Setter
@@ -19,6 +22,10 @@ public class Post {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    @OneToMany(mappedBy = "post")
+    private List<Comment> comments = new ArrayList<>();
+
     private String title;
     private String content;
     //private String imageUrl;
