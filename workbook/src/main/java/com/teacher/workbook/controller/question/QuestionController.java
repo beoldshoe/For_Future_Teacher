@@ -1,11 +1,15 @@
 package com.teacher.workbook.controller.question;
 
 import com.teacher.workbook.domain.question.Question;
-import com.teacher.workbook.dto.question.QuestionCreateRequest;
+import com.teacher.workbook.dto.question.SolveRequestDto;
+import com.teacher.workbook.dto.question.request.QuestionCreateRequest;
 import com.teacher.workbook.dto.question.QuestionListDto;
+import com.teacher.workbook.dto.question.response.AnswerResponseDto;
+import com.teacher.workbook.dto.question.response.QuestionResponseDto;
+import com.teacher.workbook.exception.QuestionNotFoundException;
 import com.teacher.workbook.service.question.QuestionService;
 import io.swagger.v3.oas.annotations.Operation;
-import lombok.RequiredArgsConstructor;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -56,5 +60,55 @@ public class QuestionController {
         }
     }
 
+    @GetMapping("/{questionId}")
+    @Operation(summary = "문제 불러오기")
+    public ResponseEntity<QuestionResponseDto> getQuestion(@PathVariable Long questionId) {
+        QuestionResponseDto questionResponseDto = questionService.getQuestionById(questionId);
+        return ResponseEntity.ok(questionResponseDto);
+    }
+
+    @GetMapping("/answer/{question_id}")
+    @Operation(summary = "정답 불러오기")
+    public ResponseEntity<AnswerResponseDto> getAnswer(@PathVariable("question_id") Long questionId) {
+        AnswerResponseDto answer = questionService.getAnswerByQuestionId(questionId);
+        return ResponseEntity.ok(answer);
+    }
+
+    @PutMapping("/{questionId}/{userId}")
+    @Operation(summary = "문제 수정하기")
+    public ResponseEntity<Void> updateQuestion(
+            @PathVariable Long questionId,
+            @PathVariable Long userId,
+            @RequestBody QuestionCreateRequest request) {
+
+        questionService.updateQuestion(questionId, userId, request);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/{question_id}/{user_id}")
+    @Operation(summary = "문제 삭제")
+    public ResponseEntity<Object> deleteQuestion(@PathVariable Long questionId, @PathVariable Long userId) {
+        try {
+            questionService.deleteQuestion(questionId, userId);
+            return ResponseEntity.ok().build();
+        } catch (IllegalAccessException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/{question_id}/{user_id}")
+    public ResponseEntity<Void> solveQuestion(@PathVariable Long question_id,
+                                              @PathVariable Long user_id,
+                                              @RequestBody SolveRequestDto solveRequestDto) {
+        questionService.solveQuestion(question_id, user_id, solveRequestDto);
+        return ResponseEntity.ok().build();
+    }
+
+    @ExceptionHandler(QuestionNotFoundException.class)
+    public ResponseEntity<String> handleQuestionNotFoundException(QuestionNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
 
 }

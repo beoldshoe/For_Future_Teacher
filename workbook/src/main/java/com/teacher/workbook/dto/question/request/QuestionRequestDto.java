@@ -1,10 +1,10 @@
-package com.teacher.workbook.dto.question;
+package com.teacher.workbook.dto.question.request;
 
 import com.teacher.workbook.domain.question.QuestionType;
 import lombok.Getter;
 
 @Getter
-public class QuestionCreateDto {
+public class QuestionRequestDto {
 
     private String title; // 문제 게시글 제목
     private String content; // 문제 내용
