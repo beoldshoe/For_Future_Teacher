@@ -2,6 +2,7 @@ package com.teacher.workbook.controller.user;
 
 import com.teacher.workbook.domain.user.User;
 import com.teacher.workbook.dto.user.UserUpdateDto;
+import com.teacher.workbook.service.question.QuestionService;
 import com.teacher.workbook.service.user.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
+import java.util.Set;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -31,7 +35,6 @@ public class UserController {
         }
     }
 
-
     @PutMapping("/{id}")
     @Operation(summary = "개인정보 수정")
     public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody UserUpdateDto userUpdateDto) {
@@ -52,5 +55,11 @@ public class UserController {
         }
     }
 
+    @GetMapping("/answers/{userId}")
+    @Operation(summary = "사용자가 맞은 문제, 틀린 문제 반환")
+    public ResponseEntity<?> getUserAnswers(@PathVariable Long userId) {
+        Map<String, Set<Long>> result = userService.getUserQuestionHistory(userId);
+        return ResponseEntity.ok(result);
+    }
 
 }

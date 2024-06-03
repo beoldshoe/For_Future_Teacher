@@ -13,7 +13,7 @@ import java.util.Set;
 @Entity
 public class AnswerHistory {
     @Id
-    @Column(name="history_id")
+    @Column(name = "history_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne
