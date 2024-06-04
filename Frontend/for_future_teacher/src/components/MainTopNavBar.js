@@ -5,7 +5,7 @@ const MainTopNavBar = () => {
     const userid = localStorage.getItem('userid');
     console.log(userid);
     const navigate = useNavigate();
-    const location = useLocation(); // 현재 위치를 알아내기 위해 useLocation 훅 사용
+    const location = useLocation(); 
     const styles = {
         navBar: {
             display: 'flex',
@@ -29,7 +29,7 @@ const MainTopNavBar = () => {
             color: '#fff',
             textDecoration: 'none',
             fontSize: '20px',
-            fontWeight: 'bold', // 굵은 글씨체로 변경
+            fontWeight: 'bold', 
         },
         buttonContainer: {
             display: 'flex',
@@ -45,20 +45,16 @@ const MainTopNavBar = () => {
         }
     };
 
-    // 선택된 링크에 대한 스타일을 결정하는 함수
     const getLinkStyle = (path) => {
         return location.pathname === path ? styles.activeLink : styles.link;
     };
 
     const handleLogout = () => {
-        // '로그아웃 하시겠습니까?' 물음
         const confirmLogout = window.confirm('로그아웃 하시겠습니까?');
 
         if (confirmLogout) {
-            // '예'를 선택한 경우, 홈으로 이동
             navigate('/');
         }
-        // '아니오'를 선택한 경우, 아무 동작도 하지 않음
     };
 
     return (

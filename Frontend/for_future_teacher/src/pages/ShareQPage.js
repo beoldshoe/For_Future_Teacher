@@ -66,7 +66,7 @@ const ShareQPage = () => {
                             <tr
                                 key={post.postId}
                                 style={{ ...trStyle, backgroundColor: index % 2 === 0 ? '#f9f9f9' : '#ffffff' }}
-                                onClick={() => navigate(`/ShareQDetail/${userid}/${post.postId}`)}
+                                onClick={() => navigate(`/ShareQDetail/${userid}/${post.question_id}`)}
                             >
                                 <td style={tdStyle}>{post.question_id} - {post.title}</td>
                                 <td style={tdStyle}>{post.nickname}</td>

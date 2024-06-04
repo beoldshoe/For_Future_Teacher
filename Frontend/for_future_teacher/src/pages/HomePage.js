@@ -5,7 +5,7 @@ import { ApiAddress } from '../constants';
 const HomePage = () => {
     const [userId, setUserId] = useState('');
     const [password, setPassword] = useState('');
-    const navigate = useNavigate(); // useHistory 훅을 사용해서 history 객체를 생성합니다.
+    const navigate = useNavigate(); 
 
     const styles = {
         container: {
@@ -31,11 +31,11 @@ const HomePage = () => {
             marginTop: '10px',
             padding: '10px',
             width: '220px',
-            backgroundColor: 'blue', // 버튼 배경색 추가
-            color: 'white', // 버튼 텍스트 색상 변경
-            border: 'none', // 테두리 제거
-            borderRadius: '5px', // 버튼 모서리 둥글게
-            cursor: 'pointer', // 마우스 오버시 커서 변경
+            backgroundColor: 'blue', 
+            color: 'white', 
+            border: 'none', 
+            borderRadius: '5px', 
+            cursor: 'pointer', 
         },
         linkContainer: {
             display: 'flex',
@@ -47,8 +47,8 @@ const HomePage = () => {
             textDecoration: 'none',
             color: 'blue',
             cursor: 'pointer',
-            fontWeight: 'bold', // 글꼴 굵기 변경
-            fontSize: '16px', // 글꼴 크기 변경
+            fontWeight: 'bold', 
+            fontSize: '16px', 
         }
     };
     
@@ -60,22 +60,19 @@ const HomePage = () => {
             return;
         }
     
-        // 로그인 요청을 보내는 주소
         const loginUrl = `${ApiAddress}/auth/login`;
     
-        // 요청에 포함될 데이터
         const loginData = {
             email: userId,
             password: password,
         };
         console.log(loginData)
-        // Fetch API를 사용하여 로그인 요청을 보냅니다.
         fetch(loginUrl, {
-            method: 'POST', // HTTP 메소드
+            method: 'POST', 
             headers: {
-                'Content-Type': 'application/json', // 컨텐츠 타입
+                'Content-Type': 'application/json', 
             },
-            body: JSON.stringify(loginData), // JSON 문자열로 변환
+            body: JSON.stringify(loginData), 
         })
         
         .then(response => {
@@ -96,9 +93,6 @@ const HomePage = () => {
             alert('로그인 실패하였습니다.');
         });
     };
-
-
-    
 
     return (
         <div style={styles.container}>

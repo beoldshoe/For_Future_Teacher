@@ -13,6 +13,8 @@ import QnADetailPage from './pages/QnADetailPage';
 import QnADetailUpdatePage from './pages/QnADetailUpdatePage';
 import ShareQRegPage from './pages/ShareQRegPage';
 import PrevExamDetailPage from './pages/PrevExamDetailPage';
+import ShareQDetail from './pages/ShareQDetailPage';
+import ShareQDetailUpdate from './pages/ShareQDetailUpdatePage';
 
 const routes = [
     {
@@ -62,6 +64,14 @@ const routes = [
     {
         path : 'ShareQReg/:id',
         component : ShareQRegPage
+    },
+    {
+        path : 'ShareQDetail/:id/:question_id',
+        component : ShareQDetail
+    },
+    {
+        path : 'ShareQDetailUpdate/:id/:question_id',
+        component : ShareQDetailUpdate
     },
     {
         path : 'MyPage/:id',
