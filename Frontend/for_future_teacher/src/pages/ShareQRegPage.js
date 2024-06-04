@@ -98,7 +98,7 @@ const ShareQRegPage = () => {
             // 응답 확인
             if (response.ok) {
                 alert('게시물이 등록되었습니다.');
-                navigate(`/ShareQ/${userid}`)
+                navigate(-1)
             } else {
                 // 서버 에러 처리
                 alert('게시물 등록에 실패했습니다.');
@@ -267,7 +267,7 @@ const ShareQRegPage = () => {
                     >
                         초기화
                     </button>
-                    
+
                     <button
                         style={{ width: '100px', height: '40px' }}
                         onClick={handleSubmit}

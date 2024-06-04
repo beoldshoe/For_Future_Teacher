@@ -3,6 +3,7 @@ import MainTopNavBar from "../components/MainTopNavBar";
 import { useNavigate } from 'react-router-dom';
 import { ApiAddress } from '../constants';
 import { useParams } from 'react-router-dom';
+import { useEffect } from 'react';
 
 const ShareQDetailUpdate = () => {
     const userid = localStorage.getItem('userid');
@@ -17,6 +18,54 @@ const ShareQDetailUpdate = () => {
     const [answer, setAnswer] = useState('');
     const [explanation, setExplanation] = useState('');
     const { question_id } = useParams();
+
+    useEffect(() => {
+        const fetchPostDetails = async () => {
+            try {
+                const response = await fetch(`${ApiAddress}/questions/${question_id}`, {
+                    method: 'GET',
+                });
+                if (!response.ok) {
+                    throw new Error('게시물을 가져오는데 실패했습니다.');
+                }
+                const data = await response.json();
+                console.log(data)
+                setTitle(data.title)
+                setContent(data.content)
+
+                if (data.questionType === 'Choices4') {
+                    setChoices(new Array(4).fill(''));
+                } else if (data.questionType === 'Choices5') {
+                    setChoices(new Array(5).fill(''));
+                }
+    
+                const options = data.options.map(option => option.content);
+                setChoices(options);
+                console.log(choices)
+        
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        fetchPostDetails();
+    }, [question_id]); 
+
+    useEffect(() => {
+        const fetchCommentary = async () => {
+            try {
+                const response = await fetch(`${ApiAddress}/questions/answer/${question_id}`);
+                const data = await response.json();
+                setExplanation(data.commentary);
+                setAnswer(data.answers)
+                console.log(data)
+            } catch (error) {
+                console.error('Error fetching commentary:', error);
+            }
+        };
+
+        fetchCommentary();
+    }, [question_id, setExplanation]);
 
     const handleChoiceChange = (index, value) => {
         const updatedChoices = choices.map((choice, idx) => idx === index ? value : choice);
@@ -59,7 +108,7 @@ const ShareQDetailUpdate = () => {
         }
     
         // 사용자에게 게시물 등록 여부를 확인
-        const isConfirmed = window.confirm('게시물을 등록하시겠습니까?');
+        const isConfirmed = window.confirm('문제를 수정하시겠습니까?');
         if (!isConfirmed) {
             return; // 사용자가 취소를 누른 경우
         }
@@ -99,11 +148,11 @@ const ShareQDetailUpdate = () => {
     
             // 응답 확인
             if (response.ok) {
-                alert('게시물이 등록되었습니다.');
-                navigate(`/ShareQ/${userid}`)
+                alert('문제가 수정되었습니다.');
+                navigate(-1)
             } else {
                 // 서버 에러 처리
-                alert('게시물 등록에 실패했습니다.');
+                alert('문제 수정에 실패했습니다.');
             }
         } catch (error) {
             // 네트워크 에러 처리

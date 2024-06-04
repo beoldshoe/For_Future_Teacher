@@ -64,10 +64,11 @@ const ShareQDetail = () => {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ answers: selectedOption })
+                body: JSON.stringify({ answers: [selectedOption], subjectiveAnswer : ''})
             });
 
             const data = await response.json();
+            console.log(data)
 
             if (data.correct) {
                 alert('정답입니다!');
@@ -93,6 +94,10 @@ const ShareQDetail = () => {
 
         fetchCommentary();
     }, [question_id, setCommentary]);
+
+    const goToUpdate = () => {
+        navigate(`/ShareQDetailUpdate/${userid}/${question_id}`)
+    }
 
     return (
         <div>
@@ -156,7 +161,8 @@ const ShareQDetail = () => {
                         <button style={{
                             width : '80px',
                             height : '30px'
-                        }}>수정</button>
+                        }}
+                        onClick={goToUpdate}>수정</button>
                         <button style={{marginLeft : '10px', width : '80px', height : '30px'}}>삭제</button>
                 </div>
             </div>
