@@ -87,9 +87,9 @@ public class QuestionController {
 
     @DeleteMapping("/{question_id}/{user_id}")
     @Operation(summary = "문제 삭제")
-    public ResponseEntity<Object> deleteQuestion(@PathVariable Long questionId, @PathVariable Long userId) {
+    public ResponseEntity<Object> deleteQuestion(@PathVariable Long question_id, @PathVariable Long user_id) {
         try {
-            questionService.deleteQuestion(questionId, userId);
+            questionService.deleteQuestion(question_id, user_id);
             return ResponseEntity.ok().build();
         } catch (IllegalAccessException e) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
