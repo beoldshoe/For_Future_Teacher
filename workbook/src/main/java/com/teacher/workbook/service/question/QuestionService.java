@@ -181,7 +181,7 @@ public class QuestionService {
     }
 
     @Transactional
-    public void solveQuestion(Long questionId, Long userId, SolveRequestDto solveRequestDto) {
+    public boolean solveQuestion(Long questionId, Long userId, SolveRequestDto solveRequestDto) {
         Question question = questionRepository.findById(questionId)
                 .orElseThrow(() -> new ResourceNotFoundException("Question not found"));
         User user = userRepository.findById(userId)
@@ -206,9 +206,10 @@ public class QuestionService {
         answerHistory.setAnswers(solveRequestDto.getAnswers());
         answerHistory.setSubjectiveAnswer(solveRequestDto.getSubjectiveAnswer());
         answerHistory.setCorrect(isCorrect);
-        answerHistory.setAnsweredAt(solveRequestDto.getAnsweredAt());
 
         answerHistoryRepository.save(answerHistory);
+
+        return isCorrect;
     }
 
     private boolean checkCorrectness(Answer answer, SolveRequestDto solveRequestDto) {

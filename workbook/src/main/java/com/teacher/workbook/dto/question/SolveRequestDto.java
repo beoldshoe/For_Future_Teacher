@@ -11,6 +11,4 @@ import java.util.Set;
 public class SolveRequestDto {
     private Set<Integer> answers; // 선택한 Answer의 number들이 저장될거야
     private String subjectiveAnswer;  // 주관식 답변
-    private boolean isCorrect;
-    private LocalDateTime answeredAt;
 }

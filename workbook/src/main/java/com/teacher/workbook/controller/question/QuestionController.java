@@ -99,11 +99,13 @@ public class QuestionController {
     }
 
     @PostMapping("/{question_id}/{user_id}")
-    public ResponseEntity<Void> solveQuestion(@PathVariable Long question_id,
+    @Operation(summary = "문제 풀기")
+    public ResponseEntity<Boolean> solveQuestion(@PathVariable Long question_id,
                                               @PathVariable Long user_id,
                                               @RequestBody SolveRequestDto solveRequestDto) {
-        questionService.solveQuestion(question_id, user_id, solveRequestDto);
-        return ResponseEntity.ok().build();
+        boolean isCorrect = questionService.solveQuestion(question_id, user_id, solveRequestDto);
+
+        return ResponseEntity.ok(isCorrect);
     }
 
     @ExceptionHandler(QuestionNotFoundException.class)
