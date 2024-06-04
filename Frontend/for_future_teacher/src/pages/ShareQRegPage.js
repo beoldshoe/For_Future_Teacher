@@ -31,7 +31,7 @@ const ShareQRegPage = () => {
         }
       };
 
-      const handleImageChange = (e) => {
+    const handleImageChange = (e) => {
         e.preventDefault();
     
         let reader = new FileReader();
@@ -230,25 +230,17 @@ const ShareQRegPage = () => {
                 ))}
                 <div
                     style={{
-                        marginTop : '5vh'
+                        marginTop: '5vh'
                     }}
-                    >
+                >
                     <span>기출</span>
-                        <input
-                        type="radio"
+                    <input
+                        type="checkbox"
                         name="isPreviousQuestion"
-                        value="yes"
+                        value={true}
                         checked={isPreviousQuestion === true}
-                        onChange={(e) => setIsPreviousQuestion(e.target.value)}
-                        />
-                    <span>사설</span>
-                        <input
-                        type="radio"
-                        name="isPreviousQuestion"
-                        value="no"
-                        checked={isPreviousQuestion === false}
-                        onChange={(e) => setIsPreviousQuestion(e.target.value)}
-                        />
+                        onChange={(e) => setIsPreviousQuestion(e.target.checked)}
+                    />
                 </div>
                 </div>
                 <div style={{
