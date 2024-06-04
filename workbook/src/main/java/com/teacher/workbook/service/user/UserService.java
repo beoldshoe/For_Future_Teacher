@@ -2,6 +2,7 @@ package com.teacher.workbook.service.user;
 
 import com.teacher.workbook.domain.user.AnswerHistory;
 import com.teacher.workbook.domain.user.User;
+import com.teacher.workbook.dto.user.UserInfo;
 import com.teacher.workbook.dto.user.UserUpdateDto;
 import com.teacher.workbook.repository.user.AnswerHistoryRepository;
 import com.teacher.workbook.repository.user.UserRepository;
@@ -31,10 +32,16 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public User findUserById(Long id) {
+    public UserInfo findUserById(Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
-        return user;
+        UserInfo userInfo = new UserInfo();
+        userInfo.setName(user.getName());
+        userInfo.setEmail(user.getEmail());
+        userInfo.setPhoneNumber(user.getPhoneNumber());
+        userInfo.setPassword(user.getPassword());
+        userInfo.setNickname(user.getNickname());
+        return userInfo;
     }
 
     public boolean deleteUserById(Long id) {

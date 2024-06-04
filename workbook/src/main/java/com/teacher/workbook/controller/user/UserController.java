@@ -1,6 +1,7 @@
 package com.teacher.workbook.controller.user;
 
 import com.teacher.workbook.domain.user.User;
+import com.teacher.workbook.dto.user.UserInfo;
 import com.teacher.workbook.dto.user.UserUpdateDto;
 import com.teacher.workbook.service.question.QuestionService;
 import com.teacher.workbook.service.user.UserService;
@@ -24,8 +25,8 @@ public class UserController {
 
     @GetMapping("/{id}")
     @Operation(summary = "개인정보 불러오기")
-    public ResponseEntity<User> getUserById(@PathVariable("id") Long id) {
-        User userInfo = userService.findUserById(id);
+    public ResponseEntity<UserInfo> getUserById(@PathVariable("id") Long id) {
+        UserInfo userInfo = userService.findUserById(id);
         if (userInfo != null) {
             // 사용자 정보를 성공적으로 찾았을 경우 HTTP 상태 코드 200(OK)와 함께 사용자 정보 반환
             return ResponseEntity.ok(userInfo);
