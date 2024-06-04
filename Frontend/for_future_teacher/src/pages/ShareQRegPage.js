@@ -16,6 +16,8 @@ const ShareQRegPage = () => {
     const [answer, setAnswer] = useState('');
     const [explanation, setExplanation] = useState('');
 
+    
+
     const handleChoiceChange = (index, value) => {
         const updatedChoices = choices.map((choice, idx) => idx === index ? value : choice);
         setChoices(updatedChoices);
@@ -98,7 +100,7 @@ const ShareQRegPage = () => {
             // 응답 확인
             if (response.ok) {
                 alert('게시물이 등록되었습니다.');
-                navigate(-1)
+                navigate(`ShareQ/${userid}`)
             } else {
                 // 서버 에러 처리
                 alert('게시물 등록에 실패했습니다.');
@@ -200,7 +202,7 @@ const ShareQRegPage = () => {
                     }}>
                     <span>4지 선다</span>
                     <input
-                    type="radio"
+                    type="checkbox"
                     name="choiceCount"
                     value="Choices4"
                     checked={choiceCount === 'Choices4'}
@@ -208,7 +210,7 @@ const ShareQRegPage = () => {
                     />
                     <span>5지 선다</span>
                     <input
-                    type="radio"
+                    type="checkbox"
                     name="choiceCount"
                     value="Choices5"
                     checked={choiceCount === 'Choices5'}

@@ -10,6 +10,16 @@ const ShareQPage = () => {
     console.log(userid);
     // 게시판 데이터를 저장할 상태
     const [posts, setPosts] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [postsPerPage] = useState(10);
+    
+
+    const indexOfLastPost = currentPage * postsPerPage;
+    const indexOfFirstPost = indexOfLastPost - postsPerPage;
+    const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
+
+    // 페이지 번호를 클릭했을 때 실행될 함수
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
     useEffect(() => {
         fetchPosts();
@@ -20,7 +30,7 @@ const ShareQPage = () => {
             const response = await fetch(`${ApiAddress}/questions`); 
             const data = await response.json();
             console.log(data)
-            setPosts(data.slice(0, 10));
+            setPosts(data);
             setLoading(false);
         } catch (error) {
             console.error("게시물을 불러오는데 실패했습니다.", error);
@@ -62,7 +72,7 @@ const ShareQPage = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {posts.map((post, index) => (
+                        {currentPosts.map((post, index) => (
                             <tr
                                 key={post.postId}
                                 style={{ ...trStyle, backgroundColor: index % 2 === 0 ? '#f9f9f9' : '#ffffff' }}
@@ -83,6 +93,14 @@ const ShareQPage = () => {
                     </tbody>
                 </table>
             )}
+                                {/* 페이지네이션 버튼 */}
+                                <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+                        {Array.from({ length: Math.ceil(posts.length / postsPerPage) }, (_, i) => (
+                            <button key={i} onClick={() => paginate(i + 1)} style={{ margin: '0 5px' }}>
+                                {i + 1}
+                            </button>
+                        ))}
+                    </div>
         </div>
     );
 };

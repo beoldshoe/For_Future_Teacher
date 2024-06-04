@@ -64,13 +64,13 @@ const ShareQDetail = () => {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ answers: [selectedOption], subjectiveAnswer : ''})
+                body: JSON.stringify({ answers: [selectedOption + 1], subjectiveAnswer : ''})
             });
-
+            console.log(selectedOption)
             const data = await response.json();
             console.log(data)
 
-            if (data.correct) {
+            if (data === true) {
                 alert('정답입니다!');
             } else {
                 alert('오답입니다. 다시 시도해주세요');
@@ -98,6 +98,28 @@ const ShareQDetail = () => {
     const goToUpdate = () => {
         navigate(`/ShareQDetailUpdate/${userid}/${question_id}`)
     }
+
+    const handleDelete = async () => {
+        const confirmed = window.confirm('게시물을 삭제하시겠습니까?');
+        console.log(userid)
+        if (confirmed) {
+          try {
+            const response = await fetch(`${ApiAddress}/questions/${question_id}/${userid}`, {
+              method: 'DELETE',
+            });
+    
+            if (response.ok) {
+              alert('삭제되었습니다.');
+              navigate(-1);
+            } else {
+              alert('삭제에 실패했습니다.');
+            }
+          } catch (error) {
+            console.error('Error:', error);
+            alert('삭제에 실패했습니다.');
+          }
+        }
+      };
 
     return (
         <div>
@@ -163,7 +185,10 @@ const ShareQDetail = () => {
                             height : '30px'
                         }}
                         onClick={goToUpdate}>수정</button>
-                        <button style={{marginLeft : '10px', width : '80px', height : '30px'}}>삭제</button>
+                        <button 
+                            style={{marginLeft : '10px', width : '80px', height : '30px'}}
+                            onClick={handleDelete}
+                            >삭제</button>
                 </div>
             </div>
         </div>

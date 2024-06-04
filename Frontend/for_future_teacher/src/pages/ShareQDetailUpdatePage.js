@@ -18,6 +18,7 @@ const ShareQDetailUpdate = () => {
     const [answer, setAnswer] = useState('');
     const [explanation, setExplanation] = useState('');
     const { question_id } = useParams();
+    
 
     useEffect(() => {
         const fetchPostDetails = async () => {
@@ -178,7 +179,7 @@ const ShareQDetailUpdate = () => {
                         width: '80px',
                         height: '30px'
                     }}
-                    onClick={() => navigate(-1)}
+                    onClick={() => navigate(`/ShareQDetail/${userid}/${question_id}`)}
                 >
                     돌아가기
                 </button>
@@ -251,7 +252,7 @@ const ShareQDetailUpdate = () => {
                     }}>
                     <span>4지 선다</span>
                     <input
-                    type="radio"
+                    type="checkbox"
                     name="choiceCount"
                     value="Choices4"
                     checked={choiceCount === 'Choices4'}
@@ -259,7 +260,7 @@ const ShareQDetailUpdate = () => {
                     />
                     <span>5지 선다</span>
                     <input
-                    type="radio"
+                    type="checkbox"
                     name="choiceCount"
                     value="Choices5"
                     checked={choiceCount === 'Choices5'}
@@ -286,19 +287,11 @@ const ShareQDetailUpdate = () => {
                     >
                     <span>기출</span>
                         <input
-                        type="radio"
+                        type="checkbox"
                         name="isPreviousQuestion"
                         value="yes"
                         checked={isPreviousQuestion === true}
-                        onChange={(e) => setIsPreviousQuestion(e.target.value)}
-                        />
-                    <span>사설</span>
-                        <input
-                        type="radio"
-                        name="isPreviousQuestion"
-                        value="no"
-                        checked={isPreviousQuestion === false}
-                        onChange={(e) => setIsPreviousQuestion(e.target.value)}
+                        onChange={(e) => setIsPreviousQuestion(e.target.checked)}
                         />
                 </div>
                 </div>
