@@ -1,7 +1,29 @@
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import MainTopNavBar from "../components/MainTopNavBar";
 import SideBar from "../components/SideBar";
+import { ApiAddress } from "../constants";
 
 const CorrectQPage = () => {
+    const [correctAnswers, setCorrectAnswers] = useState([]);
+    const navigate = useNavigate();
+    const userid = localStorage.getItem('userid');
+    console.log(userid);
+
+    useEffect(() => {
+        const fetchCorrectAnswers = async () => {
+            try {
+                const response = await fetch(`${ApiAddress}/users/answers/${userid}`);
+                const data = await response.json();
+                setCorrectAnswers(data.correct);
+            } catch (error) {
+                console.error("Error fetching correct answers:", error);
+            }
+        };
+
+        fetchCorrectAnswers();
+    }, [userid]);
+
     return (
         <div style={{ display: 'flex', flexDirection: 'column' }}>
             <MainTopNavBar />
@@ -9,11 +31,32 @@ const CorrectQPage = () => {
                 <SideBar />
                 <div style={{ flex: 1, marginLeft: '20px' }}>
                     <h1>내가 맞힌 문제</h1>
-                    {/* 여기에 내 정보 수정 폼을 추가할 수 있습니다 */}
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+                        {correctAnswers.map((answer) => (
+                            <div
+                                key={answer}
+                                style={{
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    border: '1px solid #ccc',
+                                    padding: '10px',
+                                    borderRadius: '100px',
+                                    cursor: 'pointer',
+                                    width: '100px',
+                                    height: '100px',
+                                    textAlign: 'center' // 텍스트가 여러 줄인 경우 중앙 정렬을 위해 추가
+                                }}
+                                onClick={() => navigate(`/ShareQDetail/${userid}/${answer}`)}
+                            >
+                                <h2 style={{ margin: 0 }}>{answer}</h2>
+                            </div>
+                        ))}
+                    </div>
                 </div>
             </div>
         </div>
     );
 }
 
-export default CorrectQPage
+export default CorrectQPage;
