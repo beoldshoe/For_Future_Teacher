@@ -1,6 +1,7 @@
 package com.teacher.workbook.controller.comment;
 
 import com.teacher.workbook.domain.comment.Comment;
+import com.teacher.workbook.dto.comment.CommentInfo;
 import com.teacher.workbook.dto.comment.ModifyCommentDto;
 import com.teacher.workbook.dto.comment.WriteCommentDto;
 import com.teacher.workbook.service.comment.CommentService;
@@ -22,14 +23,13 @@ public class CommentController {
 
     @GetMapping("{postId}")
     @Operation(summary = "게시판 댓글 불러오기")
-    public ResponseEntity<Comment> getAllComment(@PathVariable Long postId){
-        List <Comment> comments = commentService.getAllComment(postId);
+    public ResponseEntity<List<CommentInfo>> getAllComment(@PathVariable Long postId) {
+        List<CommentInfo> comments = commentService.getAllComment(postId);
 
-        if(comments.isEmpty()){
+        if (comments.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
-        return ResponseEntity.ok(comments.get(0));
-
+        return ResponseEntity.ok(comments);
     }
 
     @PostMapping("/{userId}/{postId}")

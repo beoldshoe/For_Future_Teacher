@@ -1,6 +1,8 @@
 package com.teacher.workbook.service.comment;
 
 import com.teacher.workbook.domain.comment.Comment;
+import com.teacher.workbook.domain.post.Post;
+import com.teacher.workbook.dto.comment.CommentInfo;
 import com.teacher.workbook.dto.comment.ModifyCommentDto;
 import com.teacher.workbook.dto.comment.WriteCommentDto;
 import com.teacher.workbook.repository.comment.CommentRepository;
@@ -10,7 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CommentService {
@@ -22,12 +26,27 @@ public class CommentService {
     private PostRepository postRepository;
 
     // 댓글 불러오기
-    public List<Comment> getAllComment(Long postId) {
-        List <Comment> comments = postRepository.findById(postId).get().getComments();
-        if (comments.isEmpty()) {
-            return null;
-        }
-        return comments;
+    public List<CommentInfo> getAllComment(Long postId) {
+        Post post = postRepository.findById(postId).orElseThrow(() -> new IllegalArgumentException("Post not found"));
+
+       if (post.getComments() == null) {
+           return null;
+       }
+       List<Comment> comments = post.getComments();
+       List<CommentInfo> commentInfoList = new ArrayList<>();
+       for (Comment comment : comments) {
+           commentInfoList.add(convertToDto(comment));
+       }
+       return commentInfoList;
+    }
+
+    private CommentInfo convertToDto(Comment comment) {
+        CommentInfo commentInfo = new CommentInfo();
+        commentInfo.setComment_id(comment.getId());
+        commentInfo.setContent(comment.getComment());
+        commentInfo.setAuthor(comment.getUser().getNickname());
+        commentInfo.setCreate_time(comment.getCreatedAt());
+        return commentInfo;
     }
 
     // 댓글 작성
