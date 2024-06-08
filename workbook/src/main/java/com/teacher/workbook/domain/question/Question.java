@@ -27,10 +27,10 @@ public class Question {
     private String image; // 해설 이미지 경로 저장
     private Boolean isPastExam;
 
-    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Choice> choices; // 선택지들
 
-    @OneToOne(mappedBy = "question", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
     private Answer answer; // 답 저장
 
     private Integer totalPeopleNum; // 사용자들이 문제를 시도한 수

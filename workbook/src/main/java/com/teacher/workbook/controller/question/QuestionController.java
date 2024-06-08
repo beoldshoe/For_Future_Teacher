@@ -2,8 +2,11 @@ package com.teacher.workbook.controller.question;
 
 import com.teacher.workbook.domain.question.Question;
 import com.teacher.workbook.dto.question.SolveRequestDto;
+import com.teacher.workbook.dto.question.request.AnswerRequestDto;
+import com.teacher.workbook.dto.question.request.OptionRequestDto;
 import com.teacher.workbook.dto.question.request.QuestionCreateRequest;
 import com.teacher.workbook.dto.question.QuestionListDto;
+import com.teacher.workbook.dto.question.request.QuestionRequestDto;
 import com.teacher.workbook.dto.question.response.AnswerResponseDto;
 import com.teacher.workbook.dto.question.response.QuestionResponseDto;
 import com.teacher.workbook.exception.QuestionNotFoundException;
@@ -17,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:3000")
+//@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/questions")
 public class QuestionController {
@@ -82,6 +85,7 @@ public class QuestionController {
             @RequestBody QuestionCreateRequest request) {
 
         questionService.updateQuestion(questionId, userId, request);
+        System.out.println(request.toString());
         return ResponseEntity.ok().build();
     }
 

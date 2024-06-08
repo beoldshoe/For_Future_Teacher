@@ -87,7 +87,7 @@ public class QuestionService {
 
         return question;
     }
-
+    @Transactional
     public void deleteQuestion(Long questionId, Long userId) throws IllegalAccessException {
         Question question = questionRepository.findById(questionId)
                 .orElseThrow(() -> new EntityNotFoundException("이 id를 가진 문제가 없습니다. " + questionId));
@@ -95,7 +95,7 @@ public class QuestionService {
         if (!question.getUser().getId().equals(userId)) {
             throw new IllegalAccessException("문제를 지울 권한이 없습니다.");
         }
-
+        answerHistoryRepository.deleteByQuestionId(questionId);
         questionRepository.delete(question);
     }
 
@@ -141,14 +141,16 @@ public class QuestionService {
         question.setIsPastExam(request.getQuestionDto().isPastExam());
         question.setImage(request.getQuestionDto().getImage());
 
-        // Option 업데이트 (생략된 로직: 기존 옵션 삭제 후 새 옵션 추가)
-        question.getChoices().clear();
+        // 기존 옵션 삭제 로직은 위의 설정에 따라 자동으로 처리될 수 있으므로 생략됨
+        question.getChoices().clear(); // 연관된 모든 Choice 엔티티를 컬렉션에서 제거
+
+        // 새 옵션 추가
         for (OptionRequestDto optionDto : request.getOptionDtos()) {
             Choice choice = new Choice();
             choice.setNumber(optionDto.getNumber());
             choice.setContent(optionDto.getContent());
             choice.setQuestion(question);
-            question.getChoices().add(choice);
+            question.getChoices().add(choice); // 새 Choice 엔티티를 컬렉션에 추가
         }
 
         // Answer 업데이트

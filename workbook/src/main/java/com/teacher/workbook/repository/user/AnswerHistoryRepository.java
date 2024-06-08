@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface AnswerHistoryRepository extends JpaRepository<AnswerHistory, Long> {
     List<AnswerHistory> findByUserIdOrderByAnsweredAtDesc(Long userId);
+
+    void deleteByQuestionId(Long questionId);
 }
