@@ -14,6 +14,7 @@ const ShareQDetailUpdate = () => {
     const [imagePreviewUrl, setImagePreviewUrl] = useState('');
     const [choiceCount, setChoiceCount] = useState('Choices4');
     const [choices, setChoices] = useState(['', '', '', '']);
+    const [choiceid, setChoiceid] = useState(['','','',''])
     const [isPreviousQuestion, setIsPreviousQuestion] = useState(false);
     const [answer, setAnswer] = useState('');
     const [explanation, setExplanation] = useState('');
@@ -39,9 +40,17 @@ const ShareQDetailUpdate = () => {
                 } else if (data.questionType === 'Choices5') {
                     setChoices(new Array(5).fill(''));
                 }
+
+                if (data.questionType === 'Choices4') {
+                    setChoiceid(new Array(4).fill(''));
+                } else if (data.questionType === 'Choices5') {
+                    setChoiceid(new Array(5).fill(''));
+                }
     
                 const options = data.options.map(option => option.content);
+                const optionid = data.options.map(option => option.optionId);
                 setChoices(options);
+                setChoiceid(optionid)
                 console.log(choices)
         
             } catch (error) {
@@ -73,17 +82,27 @@ const ShareQDetailUpdate = () => {
         setChoices(updatedChoices);
       };
     
-    const handleChoiceCountChange = (event) => {
-        const count = event.target.value;
-        setChoiceCount(count);
-        if (count === 'Choices4') {
-          setChoices(choices.slice(0, 4));
-        } else if (count === 'Choices5' && choices.length === 4) {
-          setChoices([...choices, '']);
+    const addChoice = () => {
+        if (choices.length >=5){
+            alert("선지를 더 이상 추가 할 수 없습니다.")
+        }
+        else{
+        const newChoices = [...choices, ''];
+        setChoices(newChoices);
+        setChoiceCount(`Choices${newChoices.length}`);
         }
       };
-
-      const handleImageChange = (e) => {
+    
+    const removeChoice = (index) => {
+        if (choices.length > 4) {
+          const newChoices = choices.filter((_, idx) => idx !== index);
+          setChoices(newChoices);
+          setChoiceCount(`Choices${newChoices.length}`);
+          console.log(choiceCount)
+        }
+      };
+    
+    const handleImageChange = (e) => {
         e.preventDefault();
     
         let reader = new FileReader();
@@ -116,8 +135,11 @@ const ShareQDetailUpdate = () => {
     
         const optionDtos = choices.map((choice, index) => ({
             number: index + 1,
-            content: choice
+            content: choice,
+            optionId: choiceid[index] // choiceid 배열의 해당 index 값을 optionId로 추가
         }));
+        console.log(choiceid)
+        console.log(optionDtos.number)
     
         // 게시물 데이터
         const postData = {
@@ -136,7 +158,7 @@ const ShareQDetailUpdate = () => {
                 commentary: explanation
             }
         };
-        console.log(postData)
+        console.log(postData.optionDtos)
         try {
             // API 요청
             const response = await fetch(`${ApiAddress}/questions/${question_id}/${userid}`, {
@@ -172,7 +194,7 @@ const ShareQDetailUpdate = () => {
                     flexDirection: 'row',
                     alignItems: 'center'
                 }}>
-                <h1 style={{ marginLeft: '20px' }}>문제 공유 등록하기</h1>
+                <h1 style={{ marginLeft: '20px' }}>문제 공유 수정하기</h1>
                 <button
                     style={{
                         marginLeft: '30px',
@@ -185,7 +207,6 @@ const ShareQDetailUpdate = () => {
                 </button>
             </div>
             <div style={{ margin: '20px', marginLeft : '20px' }}>
-            <form onSubmit={handleSubmit} style={{ margin: '20px', marginLeft: '20px' }}>
                 <div style={{
                     display : 'flex',
                     flexDirection : 'row'
@@ -246,40 +267,57 @@ const ShareQDetailUpdate = () => {
                     flexDirection : 'column',
                     marginLeft : '10vw'
                 }}>
-                <div
-                    style={{
-                        marginBottom : '1vh'
-                    }}>
-                    <span>4지 선다</span>
-                    <input
-                    type="checkbox"
-                    name="choiceCount"
-                    value="Choices4"
-                    checked={choiceCount === 'Choices4'}
-                    onChange={handleChoiceCountChange}
-                    />
-                    <span>5지 선다</span>
-                    <input
-                    type="checkbox"
-                    name="choiceCount"
-                    value="Choices5"
-                    checked={choiceCount === 'Choices5'}
-                    onChange={handleChoiceCountChange}
-                    />
-                </div>
                 {choices.map((choice, index) => (
-                    <div key={index}>
-                    <input
+                    <div 
+                        key={index}
                         style={{
-                            width : '300px', height : '50px', marginBottom : '1vh'
+                            display : 'flex',
+                            flexDirection : 'row'
                         }}
+                        >
+                    <input
+                        style={{ width: '300px', height: '50px', marginBottom: '1vh' }}
                         type="text"
                         placeholder={`선지 ${index + 1}`}
                         value={choice}
                         onChange={(e) => handleChoiceChange(index, e.target.value)}
                     />
+                    <div 
+                        style={{ 
+                            display: 'flex', 
+                            justifyContent: 'center', 
+                            alignItems: 'center', 
+                            marginLeft :'2vw'
+                        }}
+                    >
+                        {choices.length > 4 && (
+                            <button
+                                type="button"
+                                onClick={() => removeChoice(index)}
+                                style={{
+                                    width: '5vw',
+                                    height: '3vh',
+                                    display: 'flex', // 버튼 내부를 flex 컨테이너로 만듭니다.
+                                    justifyContent: 'center', // 수평 중앙 정렬
+                                    alignItems: 'center', // 수직 중앙 정렬
+                                    textAlign: 'center', // 텍스트 중앙 정렬
+                                }}
+                            >
+                            Delete
+                            </button>
+                        )}
+                    </div>
                     </div>
                 ))}
+                <button 
+                    type="button" 
+                    onClick={addChoice}
+                    style={{
+                        width : '5vw',
+                        height : '3vh'
+                    }}>
+                    Add
+                </button>
                 <div
                     style={{
                         marginTop : '5vh'
@@ -319,7 +357,6 @@ const ShareQDetailUpdate = () => {
                         등록하기
                     </button>
                 </div>
-                </form>
             </div>
         </div>
     );
