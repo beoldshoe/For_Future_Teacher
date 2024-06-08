@@ -14,6 +14,13 @@ const ShareQDetail = () => {
     const [nickname, setNickName] = useState('')
     const [selectedOption, setSelectedOption] = useState(null);
     const [commentary, setCommentary] = useState('');
+    const [iscorrect, setIscorrect] = useState(false)
+    const [showModal, setShowModal] = useState(false);
+  
+    // 모달을 토글하는 함수
+    const toggleModal = () => {
+        setShowModal(!showModal);
+    };
 
     useEffect(() => {
         const fetchPostDetails = async () => {
@@ -72,6 +79,8 @@ const ShareQDetail = () => {
 
             if (data === true) {
                 alert('정답입니다!');
+                setIscorrect(true)
+
             } else {
                 alert('오답입니다. 다시 시도해주세요');
             }
@@ -188,7 +197,32 @@ const ShareQDetail = () => {
                         <button 
                             style={{marginLeft : '10px', width : '80px', height : '30px'}}
                             onClick={handleDelete}
-                            >삭제</button>
+                        >삭제</button>
+                        {iscorrect && (
+                            <button
+                                style={{marginLeft : '10px', width : '80px', height : '30px'}}
+                                onClick={toggleModal}
+                            >해설 보기</button>
+                        )}
+                        {showModal && (
+                            <div style={{
+                                position: 'fixed', // 모달을 화면 중앙에 고정
+                                top: '50%', // 상단에서 50%
+                                left: '50%', // 좌측에서 50%
+                                transform: 'translate(-50%, -50%)', // 정확한 중앙 위치 조정
+                                backgroundColor: 'white', // 배경 색상,
+                                border : '2px solid black',
+                                borderRadius : '5vh',
+                                padding: '20px', // 패딩
+                                zIndex: 1000, // z-index 설정으로 다른 요소 위에 표시,
+                                width : '20vw',
+                                height : '20vh'
+                            }}>
+                                <p>해설</p>
+                                <p>{commentary}</p> {/* 해설 텍스트 */}
+                                <button onClick={toggleModal}>닫기</button> {/* 모달 닫기 버튼 */}
+                            </div>
+                        )}
                 </div>
             </div>
         </div>
