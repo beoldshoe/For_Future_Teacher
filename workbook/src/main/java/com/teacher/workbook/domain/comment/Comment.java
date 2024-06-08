@@ -25,6 +25,7 @@ public class Comment {
     @JoinColumn(name = "post_id")
     private Post post;
 
+    @Lob
     private String comment;
 
     private LocalDateTime createdAt;

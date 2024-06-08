@@ -20,8 +20,9 @@ public class Question {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
-
+    @Lob
     private String title; // 문제 게시글 제목
+    @Lob
     private String content; // 문제 내용
     private QuestionType questionType; // 4 또는 5
     private String image; // 해설 이미지 경로 저장

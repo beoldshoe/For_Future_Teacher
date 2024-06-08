@@ -27,6 +27,7 @@ public class Post {
     private List<Comment> comments = new ArrayList<>();
 
     private String title;
+    @Lob
     private String content;
     //private String imageUrl;
     private LocalDateTime createdAt;
