@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 public class CommentService {
@@ -21,6 +22,13 @@ public class CommentService {
     private PostRepository postRepository;
 
     // 댓글 불러오기
+    public List<Comment> getAllComment(Long postId) {
+        List <Comment> comments = postRepository.findById(postId).get().getComments();
+        if (comments.isEmpty()) {
+            return null;
+        }
+        return comments;
+    }
 
     // 댓글 작성
     public void createComment(Long userId, Long postId, WriteCommentDto commentDto) {
@@ -52,5 +60,6 @@ public class CommentService {
         commentRepository.delete(comment);
         return true;
     }
+
 
 }
