@@ -81,5 +81,8 @@ public class UserService {
         return result;
     }
 
+    public boolean isLogin(Long userId) {
+        return userRepository.existsById(userId);
+    }
 }
 
