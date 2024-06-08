@@ -3,7 +3,6 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 const MainTopNavBar = () => {
     const userid = localStorage.getItem('userid');
-    console.log(userid);
     const navigate = useNavigate();
     const location = useLocation(); 
     const styles = {
