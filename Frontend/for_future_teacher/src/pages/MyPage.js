@@ -29,9 +29,9 @@ const MyPage = () => {
                 console.log(data)
                 setName(data.name);
                 setNickname(data.nickname);
-                setUserId(data.email); // 이 예제에서는 userId가 이미 알려져 있음을 가정합니다.
+                setUserId(data.email); 
                 setPassword(data.password);
-                setPhone(data.phoneNumber); // API 응답의 필드명이 "phonenumber"라고 가정합니다.
+                setPhone(data.phoneNumber); 
             })
             .catch(error => {
                 console.error('Error fetching user data:', error);
@@ -56,7 +56,7 @@ const MyPage = () => {
               nickname: nickname,
               password: password,
               phoneNumber: phone,
-              email: userId, // 이메일은 예시에 없으므로 빈 문자열로 처리, 필요시 수정
+              email: userId, 
               name: name,
             }),
           });

@@ -58,10 +58,8 @@ const HomePage = () => {
         if (!userId || !password) {
             alert('모든 정보를 입력해주세요.');
             return;
-        }
-    
+        } 
         const loginUrl = `${ApiAddress}/auth/login`;
-    
         const loginData = {
             email: userId,
             password: password,
@@ -74,7 +72,6 @@ const HomePage = () => {
             },
             body: JSON.stringify(loginData), 
         })
-        
         .then(response => {
             console.log(response)
             if (response.ok) {

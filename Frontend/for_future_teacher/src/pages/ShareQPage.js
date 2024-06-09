@@ -84,7 +84,8 @@ const ShareQPage = () => {
                                 <td style={tdStyle}>
                                     {post.totalPeopleNum === 0 ? '신규' :
                                         post.totalCorrectPeopleNum / post.totalPeopleNum > 0.7 ? '하' :
-                                        0.7 >= post.totalCorrectPeopleNum / post.totalPeopleNum && post.totalCorrectPeopleNum / post.totalPeopleNum > 0.3 ? '중' :
+                                        0.7 >= post.totalCorrectPeopleNum / post.totalPeopleNum 
+                                        && post.totalCorrectPeopleNum / post.totalPeopleNum > 0.3 ? '중' :
                                         '상'
                                     }
                                 </td>
