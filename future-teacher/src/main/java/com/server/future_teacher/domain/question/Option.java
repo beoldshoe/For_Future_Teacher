@@ -3,6 +3,7 @@ package com.server.future_teacher.domain.question;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "`option`")
 public class Option {
     @Id
     @Column(name = "option_id")
