@@ -16,6 +16,7 @@ const ShareQDetail = () => {
     const [commentary, setCommentary] = useState('');
     const [iscorrect, setIscorrect] = useState(false)
     const [showModal, setShowModal] = useState(false);
+    const [postuserid, setPostUserId] = useState(null)
   
     // 모달을 토글하는 함수
     const toggleModal = () => {
@@ -35,6 +36,7 @@ const ShareQDetail = () => {
                 console.log(data)
                 setTitle(data.title)
                 setContent(data.content)
+                setPostUserId(data.userId)
 
                 if (data.questionType === 'Choices4') {
                     setOption(new Array(4).fill(''));

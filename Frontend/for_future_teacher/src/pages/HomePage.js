@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom'; 
 import { ApiAddress } from '../constants';
+import '../css/HomePage.css'
 
 const HomePage = () => {
     const [userId, setUserId] = useState('');
@@ -110,7 +111,7 @@ const HomePage = () => {
                     onChange={(e) => setPassword(e.target.value)}
                     style={styles.input}
                 />
-                <button onClick={handleLoginClick} style={styles.button}>로그인</button>
+                <button className="loginbutton" onClick={handleLoginClick}>로그인</button>
             </div>
             <div style={styles.linkContainer}>
                 <Link to="/SignUp" style={styles.link}>회원가입</Link>

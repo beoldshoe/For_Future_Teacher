@@ -123,7 +123,8 @@ const SignUpPage = () => {
                 <input type="text" placeholder="전화번호" value={phonenumber} onChange={(e) => setPhoneNumber(e.target.value)} style={styles.input} />
                 <input type="text" placeholder="아이디" value={userId} onChange={(e) => setUserId(e.target.value)} style={styles.input} />
                 <input type="password" placeholder="비밀번호" value={password} onChange={(e) => setPassword(e.target.value)} style={styles.input} />
-                <input type="password" placeholder="비밀번호 확인" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} style={styles.input} />
+                <input type="password" placeholder="비밀번호 확인" value={confirmPassword} 
+                onChange={(e) => setConfirmPassword(e.target.value)} style={styles.input} />
                 {passwordMessage && (
                     <div style={{...styles.message, ...(password === confirmPassword ? styles.successMessage : styles.errorMessage) }}>
                         {passwordMessage}

@@ -12,6 +12,7 @@ const QnADetailPage = () => {
     const [comment, setComment] = useState('');
     const [comments, setComments] = useState([]); // 댓글 목록 상태 추가
     const [isEditing, setIsEditing] = useState(false);
+    const [postuserid, setPostuserid] = useState(null)
 
 
     useEffect(() => {
@@ -24,8 +25,11 @@ const QnADetailPage = () => {
                     throw new Error('게시물을 가져오는데 실패했습니다.');
                 }
                 const data = await response.json();
+                console.log(data)
                 setTitle(data.title);
                 setContent(data.content);
+                setPostuserid(data.userId)
+                console.log(data.userId)
             } catch (error) {
                 console.error(error);
             }
@@ -67,10 +71,17 @@ const QnADetailPage = () => {
     // const disableEditing = () => {
     //     setIsEditing(false);
     //   };
-
+    
     const goToUpdatePage = () => {
-        navigate(`/QnADetailUpdate/${userid}/${postId}`);
+        if (String(userid) === String(postuserid)) {
+            console.log(userid);
+            navigate(`/QnADetailUpdate/${userid}/${postId}`);
+        } else {
+            console.log(userid);
+            alert('수정 권한이 없습니다');
+        }
     };
+    
 
     const handleDelete = async () => {
         const isConfirmed = window.confirm('게시물을 삭제하시겠습니까?');
